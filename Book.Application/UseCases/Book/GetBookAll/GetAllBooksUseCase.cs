@@ -7,7 +7,7 @@ public class GetAllBooksUseCase
 {
     public List<BookModel> Execute()
     {
-        var books = BookRepository.GetAll();
+        var books = BookRepository.GetAllBook();
 
         return books;
     }

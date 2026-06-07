@@ -10,7 +10,7 @@ public class BookRepository
     {
         _books.Add(book);
     }
-    public static List<BookModel> GetAll()
+    public static List<BookModel> GetAllBook()
     {
         return _books;
     }
@@ -20,12 +20,12 @@ public class BookRepository
         return _books.Find(book => book.Id == id);
     }
 
-    public static void Update(BookModel book)
+    public static void UpdateBook()
     {
 
     }
 
-    public static void Delete(BookModel book)
+    public static void DeleteBook(BookModel book)
     {
         _books.Remove(book);
     }

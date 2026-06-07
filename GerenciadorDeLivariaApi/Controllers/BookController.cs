@@ -1,6 +1,8 @@
-﻿using Book.Application.UseCases.Book.GetBookAll;
+﻿using Book.Application.UseCases.Book.Delete;
+using Book.Application.UseCases.Book.GetBookAll;
 using Book.Application.UseCases.Book.GetBookById;
 using Book.Application.UseCases.Book.RegisterBook;
+using Book.Application.UseCases.Book.UpdateBook;
 using Book.Communication.Requests;
 using Book.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -60,6 +62,43 @@ public class BookController : ControllerBase
         {
             return NotFound(new ResponseErrorsJson { Errors = new List<string> { ex.Message } });
         }
+    }
+
+    [HttpPut]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorsJson), StatusCodes.Status404NotFound)]
+    public IActionResult UpdateBook([FromRoute] Guid id, [FromBody] RequestUpdateBookJson request)
+    {
+        try
+        {
+            var useCase = new UpdateBookUseCase();
+            useCase.Execute(id, request);
+
+            return NoContent();
+        } 
+        catch(ArgumentException ex)
+        {
+            return NotFound(new ResponseErrorsJson { Errors = {ex.Message} } );
+        }
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorsJson), StatusCodes.Status404NotFound)]
+    public IActionResult DeleteBook([FromRoute] Guid id)
+    {
+        try
+        {
+            var useCase = new DeleteBookUseCase();
+            useCase.Execute(id);
+            return NoContent();
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(new ResponseErrorsJson { Errors = new List<string> { ex.Message } });
+        }    
     }
 
 }
